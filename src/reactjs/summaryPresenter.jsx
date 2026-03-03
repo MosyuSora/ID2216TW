@@ -3,14 +3,15 @@
 // The /src/views -> /src/native-views alias is configured in babel.config.js
 import { SummaryView } from "/src/views/summaryView.jsx";
 import { observer } from "mobx-react-lite";
+import { shoppingList } from "/src/utilities"; // 导入购物清单聚合工具
 
 const Summary = observer(
 function (props){
     return (
         <SummaryView
-      people={"TODO pass the relevant field from props.model"}
+      people={props.model.numberOfGuests} // 将 Model 中的人数映射到 View 的 people prop
       ingredients={
-        "TODO call shoppingList imported from utilities, pass the model menu as parameter"
+        shoppingList(props.model.dishes) // 将 Model 中的菜单经过聚合处理后传给 View
       }
     />
     )
