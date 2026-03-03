@@ -1,0 +1,48 @@
+{
+  "version": "1.0.0",
+  "module": "true",
+  "main_comment": "main is needed only for react native",
+  "main": "expo-router/entry",
+  "scripts_comment": "expo is for Native, dev is for Web, test is for testing web, nativeTest for testing native",
+  "scripts": {
+    "expo": "expo start",
+    "test": "NODE_OPTIONS='--no-experimental-detect-module' vitest",
+    "dev": "vite"
+  },
+  "dependencies_comment": "We include in dependencies only packages needed for the Web deployment, since Native deployment is beyond the scope of the course",
+  "dependencies": {
+    "expo": "^54.0.22",
+    "expo-image": "~3.0.10",
+    "expo-router": "~6.0.14",
+    "firebase": "latest",
+    "mobx": "latest",
+    "mobx-react-lite": "latest",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-native": "0.81.5",
+    "react-native-safe-area-context": "~5.6.0",
+    "react-native-screens": "~4.16.0",
+    "react-native-web": "^0.21.0",
+    "react-router-dom": "^7.10.1",
+    "vue":"latest"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.5",
+    "@iprog/test": "latest",
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "^16.3.0",
+    "babel-plugin-module-resolver": "^5.0.2",
+    "happy-dom": "latest",
+    "react-test-renderer": "19.1.0",
+    "vite-plugin-virtual-html": "latest",
+    "vitest": "latest",
+    "@react-native-segmented-control/segmented-control": "2.5.7",
+    "@react-navigation/native": "^7.0.0",
+    "@testing-library/react-native": "13.2.0",
+    "esbuild": "latest",
+    "flow-remove-types":"latest",
+    "@testing-library/vue": "latest",
+    "vue-router": "latest"
+  },
+  "private": true
+}

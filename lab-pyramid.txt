@@ -1,0 +1,26 @@
+  
+                         /\
+                        /  \
+                       / A  \
+                      /------\
+                     /great UX\
+                    /----------\ 
+                   /involve user\
+                  /--------------\	
+                 /    Pass Lab    \
+                /------------------\
+               /  weekly oral exam  \
+              /----------------------\
+             /  understand concepts:  \ 
+            / M, V, P, array rendering \
+           /reactive object, side effect\
+          / custom event, navigation,    \
+         /  promise, race condition, etc  \
+        /----------------------------------\
+       /     User Interface works!          \
+      / -------------------------------------\
+     /     understand your own code...        \
+    /------------------------------------------\
+   / unit tests pass. Not Enough to pass lab... \
+  /______________________________________________\
+
