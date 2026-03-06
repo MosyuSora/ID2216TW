@@ -69,23 +69,23 @@ npm run test tw3     # 运行全部 TW3 测试
 
 本项目将官方教程与对应的通关答案进行了 1:1 关联，方便新手循序渐进学习。
 
-| 章节 | 核心教程 (Tutorial) | 通关答案 (Solution) |
-| :--- | :--- | :--- |
-| **TW1.1** | [JavaScript 核心与回调](./id2216_tutorials/01_js_callbacks.md) | [Callbacks & MVP](./solutions/tw1/TW1.1_JavaScript_and_Callbacks.md) |
-| **TW1.2.1** | [环境搭建与 App 启动](./id2216_tutorials/02_rendering_native.md) | [Bootstrapping](./solutions/tw1/TW1.2.1_Bootstrapping_the_App.md) |
-| **TW1.2.2** | [Presenter 传递 Props](./id2216_tutorials/02_rendering_native.md) | [Pass Props](./solutions/tw1/TW1.2.2_Presenters_pass_props_to_Views.md) |
-| **TW1.2.3** | [基础 View 渲染](./id2216_tutorials/02_rendering_native.md) | [Basic Rendering](./solutions/tw1/TW1.2.3_Basic_Rendering_in_Views.md) |
-| **TW1.3** | [数组渲染与样式](./id2216_tutorials/03_array_rendering_native.md) | [Array & Styling](./solutions/tw1/TW1.3_Array_rendering_and_Styling.md) |
-| **TW1.4** | [原生事件处理](./id2216_tutorials/04_native_events.md) | [Handle Events](./solutions/tw1/TW1.4_Handle_native_events_and_fire_custom_events.md) |
-| **TW1.5** | [Presenter 处理事件](./id2216_tutorials/05_presenter_logic_native.md) | [Presenter Events](./solutions/tw1/TW1.5_Presenters_handle_custom_events_fired_by_Views.md) |
-| **TW2.1** | [API 调用与 Promises](./id2216_tutorials/06_api_promises.md) | [Fetching Data](./solutions/tw2/TW2.1_Fetching_data_from_Web_APIs.md) |
-| **TW2.2** | [副作用 (Side Effects)](./id2216_tutorials/07_side_effects.md) | [Resolving Promises](./solutions/tw2/TW2.2_Resolving_promises_in_Application_State_and_Side_effects.md) |
-| **TW2.3.1** | [Presenter 中的 Suspense](./id2216_tutorials/08_suspense_native.md) | [Suspense Native](./solutions/tw2/TW2.3.1_Suspense_in_Presenters.md) |
-| **TW2.4 & 2.5** | [复杂组件交互](./id2216_tutorials/09_complex_views_native.md) | [Custom Events](./solutions/tw2/TW2.5_Handle_Custom_Events_in_Presenters.md) |
-| **TW3.1** | [Firebase/Firestore 持久化](./id2216_tutorials/10_persistence.md) | [Persistence](./solutions/tw3/TW3.1_Persistence.md) |
-| **TW3.2** | [平台适配渲染](./id2216_tutorials/11_navigation_logic.md) | [Platform Specific](./solutions/tw3/TW3.2_Platform_specific_rendering.md) |
-| **TW3.3** | [Expo Router 导航](./id2216_tutorials/11_navigation_logic.md) | [Navigation](./solutions/tw3/TW3.3_Navigation.md) |
-| **TW3.5** | - | [Native Tasks (可选)](./solutions/tw3/TW3.5_Native_tasks.md) |
+| 章节 | 核心教程 (Tutorial) | 通关答案 (Solution) | Canvas 链接 |
+| :--- | :--- | :--- | :--- |
+| **TW1.1** | [JavaScript 核心与回调](./id2216_tutorials/01_js_callbacks.md) | [Callbacks & MVP](./solutions/tw1/TW1.1_JavaScript_and_Callbacks.md) | [Canvas 1.1](https://canvas.kth.se/courses/59201/modules/items/1360852) |
+| **TW1.2.1** | [环境搭建与 App 启动](./id2216_tutorials/02_rendering_native.md) | [Bootstrapping](./solutions/tw1/TW1.2.1_Bootstrapping_the_App.md) | [Canvas 1.2.1](https://canvas.kth.se/courses/59201/modules/items/1360853) |
+| **TW1.2.2** | [Presenter 传递 Props](./id2216_tutorials/02_rendering_native.md) | [Pass Props](./solutions/tw1/TW1.2.2_Presenters_pass_props_to_Views.md) | [Canvas 1.2.2](https://canvas.kth.se/courses/59201/modules/items/1360854) |
+| **TW1.2.3** | [基础 View 渲染](./id2216_tutorials/02_rendering_native.md) | [Basic Rendering](./solutions/tw1/TW1.2.3_Basic_Rendering_in_Views.md) | [Canvas 1.2.3](https://canvas.kth.se/courses/59201/modules/items/1360855) |
+| **TW1.3** | [数组渲染与样式](./id2216_tutorials/03_array_rendering_native.md) | [Array & Styling](./solutions/tw1/TW1.3_Array_rendering_and_Styling.md) | [Canvas 1.3](https://canvas.kth.se/courses/59201/modules/items/1360856) |
+| **TW1.4** | [原生事件处理](./id2216_tutorials/04_native_events.md) | [Handle Events](./solutions/tw1/TW1.4_Handle_native_events_and_fire_custom_events.md) | [Canvas 1.4](https://canvas.kth.se/courses/59201/modules/items/1360857) |
+| **TW1.5** | [Presenter 处理事件](./id2216_tutorials/05_presenter_logic_native.md) | [Presenter Events](./solutions/tw1/TW1.5_Presenters_handle_custom_events_fired_by_Views.md) | [Canvas 1.5](https://canvas.kth.se/courses/59201/modules/items/1360858) |
+| **TW2.1** | [API 调用与 Promises](./id2216_tutorials/06_api_promises.md) | [Fetching Data](./solutions/tw2/TW2.1_Fetching_data_from_Web_APIs.md) | [Canvas 2.1](https://canvas.kth.se/courses/59201/modules/items/1360861) |
+| **TW2.2** | [副作用 (Side Effects)](./id2216_tutorials/07_side_effects.md) | [Resolving Promises](./solutions/tw2/TW2.2_Resolving_promises_in_Application_State_and_Side_effects.md) | [Canvas 2.2](https://canvas.kth.se/courses/59201/modules/items/1360862) |
+| **TW2.3.1** | [Presenter 中的 Suspense](./id2216_tutorials/08_suspense_native.md) | [Suspense Native](./solutions/tw2/TW2.3.1_Suspense_in_Presenters.md) | [Canvas 2.3.1](https://canvas.kth.se/courses/59201/modules/items/1401005) |
+| **TW2.4 & 2.5** | [复杂组件交互](./id2216_tutorials/09_complex_views_native.md) | [Custom Events](./solutions/tw2/TW2.5_Handle_Custom_Events_in_Presenters.md) | [Canvas 2.5](https://canvas.kth.se/courses/59201/modules/items/1360866) |
+| **TW3.1** | [Firebase/Firestore 持久化](./id2216_tutorials/10_persistence.md) | [Persistence](./solutions/tw3/TW3.1_Persistence.md) | [Canvas 3.1](https://canvas.kth.se/courses/59201/modules/items/1401003) |
+| **TW3.2** | [平台适配渲染](./id2216_tutorials/11_navigation_logic.md) | [Platform Specific](./solutions/tw3/TW3.2_Platform_specific_rendering.md) | [Canvas 3.2](https://canvas.kth.se/courses/59201/modules/items/1360870) |
+| **TW3.3** | [Expo Router 导航](./id2216_tutorials/11_navigation_logic.md) | [Navigation](./solutions/tw3/TW3.3_Navigation.md) | [Canvas 3.3](https://canvas.kth.se/courses/59201/modules/items/1360871) |
+| **TW3.5** | - | [Native Tasks (可选)](./solutions/tw3/TW3.5_Native_tasks.md) | [Canvas 3.5](https://canvas.kth.se/courses/59201/modules/items/1367364) |
 
 ---
 
