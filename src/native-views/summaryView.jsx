@@ -1,58 +1,92 @@
-import { FlatList, StyleSheet, Text, View } from "react-native"
+import React from 'react';
+import { View, Text, FlatList, StyleSheet, Pressable } from 'react-native';
+import { sortIngredients } from '../utilities';
+import { getCardStyle } from './cardStyle';
 
-// un-comment when needed:
-//import {sortIngredients} from "/src/utilities.js";
-
-/* Functional JSX component. Name must start with capital letter */
+/**
+ * SummaryView 组件：展示晚餐人数、食材清单及其总量。
+ * @param {Object} props - 包含 people (人数) 和 ingredients (食材数组)。
+ */
 export function SummaryView(props) {
-  return (
-    <View style={styles.container}>
-      {/* TW 1.2 note the syntax: {JS_expression_or_comment} */}
-      <Text>
-        Summary for <Text>{props.people}</Text> persons:
-      </Text>
+    // 1. 渲染前先对食材数组进行排序 (按 aisle 和 name 升序)
+    const sortedIngredients = sortIngredients(props.ingredients);
 
-      {/* TW 1.3: remove this line (and the TW1.3 one below) to uncomment
+    // 2. 定义 FlatList 的渲染回调 (ACB)
+    function renderItemACB({ item: ingredient }) {
+        return (
+            <View style={[styles.row, styles.card]}>
+                {/* 左侧：食材名称和超市过道 */}
+                <View style={{ flex: 1 }}>
+                    <Text style={styles.ingredientName}>{ingredient.name}</Text>
+                    <Text style={styles.aisleText}>{ingredient.aisle}</Text>
+                </View>
+                {/* 右侧：计算后的总量 (toFixed(2)) 和单位 */}
+                <View style={{ alignItems: 'flex-end' }}>
+                    <Text style={styles.quantityText}>
+                        {(ingredient.amount * props.people).toFixed(2)} {ingredient.unit}
+                    </Text>
+                </View>
+            </View>
+        );
+    }
 
-      <View style={styles.card}>
-        <View  style={styles.row}>
-          <Text>Name</Text>
-          <Text>Aisle</Text>
-          <Text>Quantity</Text>
-        </View>
-        <FlatList
-          data={props.TODO}
-          renderItem={renderIngredientRowCB}
-        />
-      </View>
+    // 3. 定义 KeyExtractor 回调 (ACB)
+    function keyExtractorACB(item) {
+        return item.id.toString();
+    }
 
-      TW1.3 remove this line to uncomment */}
-    </View>
-  )
-
-  /* Callback for rendering each ingredient row - implement in TW 1.3 */
-  function renderIngredientRowCB(element) {
-    const ingr = element.item // FlatList sends objects with a property called item
     return (
-      <View testID="summary-row" style={styles.row}>
-        <Text>{ingr.name}</Text>
-        <Text>{"TODO aisle"}</Text>
-        <Text>
-          {"TODO amount"} {"TODO unit"}
-        </Text>
-      </View>
-    )
-  }
+        <View style={styles.container}>
+            {/* 条件渲染：根据人数显示 person 或 persons，注意测试要求末尾有冒号 ":" */}
+            <View style={styles.headerRow}>
+                <Text style={styles.header}>
+                    Summary for {props.people} {props.people === 1 ? 'person' : 'persons'}:
+                </Text>
+            </View>
+            
+            {/* 使用 FlatList 高效渲染列表 */}
+            <FlatList
+                data={sortedIngredients}
+                renderItem={renderItemACB}
+                keyExtractor={keyExtractorACB}
+            />
+        </View>
+    );
 }
 
-// Basic styles to get started
 const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    flex: 1,
-  },
-  row: {
-    flexDirection: "row",
-    padding: 8,
-  },
-})
+    card: {
+        ...getCardStyle(),
+    },
+    container: {
+        padding: 10,
+    },
+    headerRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    header: {
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    row: {
+        flexDirection: 'row',
+        paddingVertical: 5,
+        borderBottomWidth: 1,
+        borderBottomColor: '#eee',
+        alignItems: 'center',
+    },
+    ingredientName: {
+        fontSize: 16,
+    },
+    aisleText: {
+        fontSize: 12,
+        color: '#666',
+    },
+    quantityText: {
+        fontSize: 14,
+        fontWeight: '500',
+    }
+});

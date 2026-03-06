@@ -4,45 +4,45 @@
 
 ---
 
-## TW1.2.1 App Bootstrapping
+## TW1.2.1 Bootstrapping the App (Reactive Model)
 
 ### 问题内容
-在 Expo Router 架构下，实现应用顶层对 Model 的初始化与注入：
-1. 在应用的入口页面（`src/app/index.jsx`）中导入应用唯一的 `model` 实例。
-2. 将该 `model` 实例作为 `props` 传递给顶层的 Presenter 组件（如 `Summary`）。
+在应用顶层建立响应式数据源：
+1. 实现 `makeReactiveModel(model)` 函数，使用 MobX 的 `observable` 将普通对象转换为响应式对象。
+2. 导出 `reactiveModel` 实例，作为全应用唯一的响应式状态单例。
 
 ### 问题 Scope
-- 代码文件：[`/src/app/index.jsx`](../../src/app/index.jsx)
-- 修改行号：第 1-15 行。
+- 代码文件：[`/src/mobxReactiveModel.js`](../../src/mobxReactiveModel.js)
+- 修改行号：第 1-16 行。
 
 ### 对应知识点回顾
-- **MVP 架构引导**：在应用启动时，必须确保有一个全局唯一的 Model 实例。
-- **Prop 传递**：React 组件通过 `props` 接收外部传入的数据或对象。
-- **Expo Router 入口**：`src/app/index.jsx` 是 Expo 项目的默认首屏。
-- 参考教程：[`/id2216_tutorials/04_mvp_intro.md`](../../id2216_tutorials/04_mvp_intro.md)
+- **MobX Observable**: `observable` 会递归地将对象属性变为可追踪状态，这是实现 MVP 架构中 "Model 变化自动驱动 View 更新" 的核心。
+- **Singleton Pattern**: 确保 `reactiveModel` 全局唯一，避免多个 Presenter 引用不同的数据源。
+- 参考教程：[`/id2216_tutorials/05_mobx_basics.md`](../../id2216_tutorials/05_mobx_basics.md)
 
 ### 解题思路
-1. **单例模式**: 根据课程规范，Model 应该作为一个单例存在。我们在 `index.jsx` 这一“顶层容器”中导入它。
-2. **顶层注入**: 为了让下层组件（Presenter 和 View）能够访问到数据，我们需要利用 React 的 Prop 机制，将 `model` 实例手动向下传递。
-3. **响应式预留**: 虽然此时 `model` 还是普通 JS 对象，但这种“顶层持有”的模式为后续接入 `Observer` 模式打下了基础。
+1. **轻量化封装**: 我们不直接修改原始 `DinnerModel`，而是通过 `makeReactiveModel` 进行一层响应式包装。
+2. **测试兼容性**: 为通过 `npm run test tw1.2.1`，必须确保导出的命名与测试脚本匹配，且导入路径使用 `/src/` 开头的绝对路径。
 
 #### 最终实现代码
 
 ```javascript
-import { ScrollView, View } from "react-native"
-import { Summary } from "/src/reactjs/summaryPresenter"
-import { model } from "/src/DinnerModel" // 1. 导入应用唯一的 Model 实例
+import { observable } from "mobx";
+import { model } from "/src/DinnerModel";
 
-export default function IndexPage() {
-  return (
-    <ScrollView>
-      <View>
-        {/* 2. 将 model 作为 prop 传递给 Summary Presenter */}
-        <Summary model={model} /> 
-      </View>
-    </ScrollView>
-  )
+/**
+ * TW1.2.1 响应式模型构建
+ * 使用 MobX 的 observable 将普通的 model 对象转换为响应式对象。
+ */
+function makeReactiveModel(model) {
+    return observable(model);
 }
+
+// 在模块加载时立即创建响应式实例
+const reactiveModel = makeReactiveModel(model);
+
+// 导出函数与实例供测试及 Presenters 使用
+export { makeReactiveModel, reactiveModel };
 ```
 
 ---
@@ -125,5 +125,3 @@ export function SummaryView(props) {
   )
 }
 ```
-
-
