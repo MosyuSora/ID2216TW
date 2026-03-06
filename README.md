@@ -13,33 +13,20 @@
   - 使用 **MobX** 实现响应式更新，确保数据变动能即时反映在 UI 上。
 - **View (视图层)**: `src/native-views/`
   - 纯粹的 UI 组件，不包含业务逻辑。
-  - 通过 Props 接收数据，并通过回调函数（Custom Events）向外发出交互信号。
 - **Presenter (演示层)**: `src/reactjs/`
   - 充当 Model 与 View 之间的桥梁。
-  - 监听 Model 的变化，将数据处理后传给 View，并处理 View 传回的交互事件。
 
 ---
 
 ## 🚀 快速上手 (Quick Start)
 
-### 1. 环境准备
-确保你已安装 [Node.js](https://nodejs.org/) 以及移动端调试环境（Expo Go 或 模拟器）。
-
-### 2. 安装依赖
-在项目根目录下运行：
+### 1. 安装与启动
 ```bash
 npm install
-```
-
-### 3. 启动应用
-使用 Expo 启动开发服务器：
-```bash
 npx expo start
 ```
-你可以扫描终端中的二维码在真机上预览，或按下 `i` (iOS) / `a` (Android) 在模拟器中打开。
 
-### 4. 运行测试
-本项目包含完整的单元测试，用于验证各个 Tutorial Week 的完成情况：
+### 2. 运行测试
 ```bash
 npm run test tw1.1   # 运行特定章节测试
 npm run test tw3     # 运行全部 TW3 测试
@@ -47,61 +34,53 @@ npm run test tw3     # 运行全部 TW3 测试
 
 ---
 
-## 📂 目录指南 (Directory Structure)
+## 📚 中文友好课程文档 (Learning Resources)
 
-```text
-.
-├── id2216_tutorials/   # 📚 核心知识点教程 (推荐新手必读)
-├── solutions/          # 📝 章节通关文档 (包含解题思路与 Canvas 链接)
-├── src/
-│   ├── app/            # 路由层：定义 Tab 导航与页面入口 (Expo Router)
-│   ├── native-views/   # 视图层：原生优化的 React Native 组件
-│   ├── reactjs/        # 演示层：连接逻辑与界面的 Presenters
-│   ├── persistence/    # 持久化：Firebase/Firestore 配置与逻辑
-│   ├── DinnerModel.js  # 模型层：核心业务逻辑
-│   └── apiConfig.js    # 配置：API 密钥与基础路径
-└── archives/           # 📦 历史冗余文件归档
-```
+为了帮助开发者快速掌握移动开发核心，我们准备了全套中文教程，深入浅出讲解从 JS 基础到 Native 进阶的知识：
+
+1.  **[环境搭建与准备](./id2216_tutorials/01_setup.md)**：开发工具与 Expo 环境配置。
+2.  **[JavaScript 核心与回调](./id2216_tutorials/02_callbacks.md)**：掌握 ACB (Asynchronous Callback) 模式。
+3.  **[原生视图渲染](./id2216_tutorials/03_rendering.md)**：React Native 基础组件与样式。
+4.  **[MVP 架构入门](./id2216_tutorials/04_mvp_intro.md)**：理解 Model-View-Presenter 的设计精髓。
+5.  **[响应式编程](./id2216_tutorials/05_reactivity.md)**：使用 MobX 管理应用状态。
+6.  **[异步请求与 API](./id2216_tutorials/06_fetch_async.md)**：Fetch 调用与异步逻辑封装。
+7.  **[Suspense 与渲染占位](./id2216_tutorials/07_suspense.md)**：提升用户体验的异步 UI 模式。
+8.  **[进阶状态逻辑](./id2216_tutorials/08_state_advanced.md)**：处理复杂的业务流转。
+9.  **[Firebase 持久化](./id2216_tutorials/10_firebase_auth.md)**：连接云端数据库 Firestore。
+10. **[Expo Router 导航逻辑](./id2216_tutorials/11_navigation_logic.md)**：原生 Stack 与 Tab 导航实现。
+11. **[大项目启动指南](./id2216_tutorials/12_project_kickstart.md)**：从 Lab 到 Project 的转型建议。
 
 ---
 
-## 🎓 教程与答案目录 (Tutorials & Solutions)
+## 🎓 章节通关索引 (Tutorials & Solutions)
 
-本项目将官方教程与对应的通关答案进行了 1:1 关联，方便新手循序渐进学习。
+本项目将每一个 Tutorial Week 的通关答案与 Canvas 官方要求进行了 1:1 关联，支持代码行号自动跳转。
 
-| 章节 | 核心教程 (Tutorial) | 通关答案 (Solution) | Canvas 链接 |
-| :--- | :--- | :--- | :--- |
-| **TW1.1** | [JavaScript 核心与回调](./id2216_tutorials/01_js_callbacks.md) | [Callbacks & MVP](./solutions/tw1/TW1.1_JavaScript_and_Callbacks.md) | [Canvas 1.1](https://canvas.kth.se/courses/59201/modules/items/1360852) |
-| **TW1.2.1** | [环境搭建与 App 启动](./id2216_tutorials/02_rendering_native.md) | [Bootstrapping](./solutions/tw1/TW1.2.1_Bootstrapping_the_App.md) | [Canvas 1.2.1](https://canvas.kth.se/courses/59201/modules/items/1360853) |
-| **TW1.2.2** | [Presenter 传递 Props](./id2216_tutorials/02_rendering_native.md) | [Pass Props](./solutions/tw1/TW1.2.2_Presenters_pass_props_to_Views.md) | [Canvas 1.2.2](https://canvas.kth.se/courses/59201/modules/items/1360854) |
-| **TW1.2.3** | [基础 View 渲染](./id2216_tutorials/02_rendering_native.md) | [Basic Rendering](./solutions/tw1/TW1.2.3_Basic_Rendering_in_Views.md) | [Canvas 1.2.3](https://canvas.kth.se/courses/59201/modules/items/1360855) |
-| **TW1.3** | [数组渲染与样式](./id2216_tutorials/03_array_rendering_native.md) | [Array & Styling](./solutions/tw1/TW1.3_Array_rendering_and_Styling.md) | [Canvas 1.3](https://canvas.kth.se/courses/59201/modules/items/1360856) |
-| **TW1.4** | [原生事件处理](./id2216_tutorials/04_native_events.md) | [Handle Events](./solutions/tw1/TW1.4_Handle_native_events_and_fire_custom_events.md) | [Canvas 1.4](https://canvas.kth.se/courses/59201/modules/items/1360857) |
-| **TW1.5** | [Presenter 处理事件](./id2216_tutorials/05_presenter_logic_native.md) | [Presenter Events](./solutions/tw1/TW1.5_Presenters_handle_custom_events_fired_by_Views.md) | [Canvas 1.5](https://canvas.kth.se/courses/59201/modules/items/1360858) |
-| **TW2.1** | [API 调用与 Promises](./id2216_tutorials/06_api_promises.md) | [Fetching Data](./solutions/tw2/TW2.1_Fetching_data_from_Web_APIs.md) | [Canvas 2.1](https://canvas.kth.se/courses/59201/modules/items/1360861) |
-| **TW2.2** | [副作用 (Side Effects)](./id2216_tutorials/07_side_effects.md) | [Resolving Promises](./solutions/tw2/TW2.2_Resolving_promises_in_Application_State_and_Side_effects.md) | [Canvas 2.2](https://canvas.kth.se/courses/59201/modules/items/1360862) |
-| **TW2.3.1** | [Presenter 中的 Suspense](./id2216_tutorials/08_suspense_native.md) | [Suspense Native](./solutions/tw2/TW2.3.1_Suspense_in_Presenters.md) | [Canvas 2.3.1](https://canvas.kth.se/courses/59201/modules/items/1401005) |
-| **TW2.4 & 2.5** | [复杂组件交互](./id2216_tutorials/09_complex_views_native.md) | [Custom Events](./solutions/tw2/TW2.5_Handle_Custom_Events_in_Presenters.md) | [Canvas 2.5](https://canvas.kth.se/courses/59201/modules/items/1360866) |
-| **TW3.1** | [Firebase/Firestore 持久化](./id2216_tutorials/10_persistence.md) | [Persistence](./solutions/tw3/TW3.1_Persistence.md) | [Canvas 3.1](https://canvas.kth.se/courses/59201/modules/items/1401003) |
-| **TW3.2** | [平台适配渲染](./id2216_tutorials/11_navigation_logic.md) | [Platform Specific](./solutions/tw3/TW3.2_Platform_specific_rendering.md) | [Canvas 3.2](https://canvas.kth.se/courses/59201/modules/items/1360870) |
-| **TW3.3** | [Expo Router 导航](./id2216_tutorials/11_navigation_logic.md) | [Navigation](./solutions/tw3/TW3.3_Navigation.md) | [Canvas 3.3](https://canvas.kth.se/courses/59201/modules/items/1360871) |
-| **TW3.5** | - | [Native Tasks (可选)](./solutions/tw3/TW3.5_Native_tasks.md) | [Canvas 3.5](https://canvas.kth.se/courses/59201/modules/items/1367364) |
+| 章节 | 通关答案 (Solution) | Canvas 链接 |
+| :--- | :--- | :--- |
+| **TW1.1** | [Callbacks & MVP](./solutions/tw1/TW1.1_JavaScript_and_Callbacks.md) | [Canvas 1.1](https://canvas.kth.se/courses/59201/modules/items/1360852) |
+| **TW1.2.1** | [Bootstrapping](./solutions/tw1/TW1.2.1_Bootstrapping_the_App.md) | [Canvas 1.2.1](https://canvas.kth.se/courses/59201/modules/items/1360853) |
+| **TW1.2.2** | [Pass Props](./solutions/tw1/TW1.2.2_Presenters_pass_props_to_Views.md) | [Canvas 1.2.2](https://canvas.kth.se/courses/59201/modules/items/1360854) |
+| **TW1.2.3** | [Basic Rendering](./solutions/tw1/TW1.2.3_Basic_Rendering_in_Views.md) | [Canvas 1.2.3](https://canvas.kth.se/courses/59201/modules/items/1360855) |
+| **TW1.3** | [Array & Styling](./solutions/tw1/TW1.3_Array_rendering_and_Styling.md) | [Canvas 1.3](https://canvas.kth.se/courses/59201/modules/items/1360856) |
+| **TW1.4** | [Handle Events](./solutions/tw1/TW1.4_Handle_native_events_and_fire_custom_events.md) | [Canvas 1.4](https://canvas.kth.se/courses/59201/modules/items/1360857) |
+| **TW1.5** | [Presenter Events](./solutions/tw1/TW1.5_Presenters_handle_custom_events_fired_by_Views.md) | [Canvas 1.5](https://canvas.kth.se/courses/59201/modules/items/1360858) |
+| **TW1.6** | [Forms & Input](./solutions/tw1/TW1.6_Forms_and_input.md) | [Canvas 1.6](https://canvas.kth.se/courses/59201/modules/items/1360859) |
+| **TW2.1** | [Fetching Data](./solutions/tw2/TW2.1_Fetching_data_from_Web_APIs.md) | [Canvas 2.1](https://canvas.kth.se/courses/59201/modules/items/1360861) |
+| **TW2.2** | [Resolving Promises](./solutions/tw2/TW2.2_Resolving_promises_in_Application_State_and_Side_effects.md) | [Canvas 2.2](https://canvas.kth.se/courses/59201/modules/items/1360862) |
+| **TW2.3.1** | [Suspense Native](./solutions/tw2/TW2.3.1_Suspense_in_Presenters.md) | [Canvas 2.3.1](https://canvas.kth.se/courses/59201/modules/items/1401005) |
+| **TW2.4 & 2.5** | [Custom Events](./solutions/tw2/TW2.5_Handle_Custom_Events_in_Presenters.md) | [Canvas 2.5](https://canvas.kth.se/courses/59201/modules/items/1360866) |
+| **TW3.1** | [Persistence](./solutions/tw3/TW3.1_Persistence.md) | [Canvas 3.1](https://canvas.kth.se/courses/59201/modules/items/1401003) |
+| **TW3.2** | [Platform Specific](./solutions/tw3/TW3.2_Platform_specific_rendering.md) | [Canvas 3.2](https://canvas.kth.se/courses/59201/modules/items/1360870) |
+| **TW3.3** | [Navigation](./solutions/tw3/TW3.3_Navigation.md) | [Canvas 3.3](https://canvas.kth.se/courses/59201/modules/items/1360871) |
+| **TW3.5** | [Native Tasks (可选)](./solutions/tw3/TW3.5_Native_tasks.md) | [Canvas 3.5](https://canvas.kth.se/courses/59201/modules/items/1367364) |
 
 ---
 
 ## ⚠️ 开发者笔记
 
 - **代码一致性**：本项目已通过 2026 年 3 月的最新审计，所有代码逻辑与 Canvas 官方要求保持一致。
-- **视图目录说明**：请优先关注 `src/native-views/`，这是专门为原生环境优化的视图组件，也是测试脚本主要检查的对象。
-- **学术诚信**：本项目代码仅供学习参考。请遵循 KTH 的学术诚信准则。
-
----
-
-## 🔗 相关资源
-
-- [Canvas 课程页面](https://canvas.kth.se/courses/59201)
-- [React Native 官方文档](https://reactnative.dev/docs/getting-started)
-- [Expo Router 导航指南](https://docs.expo.dev/router/introduction/)
+- **视图目录说明**：请优先关注 `src/native-views/`，这是专门为原生环境优化的视图组件。
 
 ---
 *Generated with ❤️ by Phoebe (MosaMatrix Assistant)*
