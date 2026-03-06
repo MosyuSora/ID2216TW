@@ -1,6 +1,6 @@
 # 🥘 Dinner Planner - DH2642/ID2216 Interaction Programming and the Dynamic Web
 
-欢迎来到 **DH2642/ID2216 Interaction Programming and the Dynamic Web** 项目！这是一个基于 **MVP (Model-View-Presenter)** 架构构建的晚餐规划应用。本项目专注于 React Native 的原生开发特性、响应式状态管理以及 Firebase 云端持久化。
+欢迎来到 **DH2642/ID2216 Interaction Programming and the Dynamic Web** Tutorial Week解析！这是一个基于 **MVP (Model-View-Presenter)** 架构构建的晚餐规划应用。本项目专注于 React Native 的原生开发特性、响应式状态管理以及 Firebase 云端持久化。
 
 ---
 
