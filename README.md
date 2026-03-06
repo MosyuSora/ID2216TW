@@ -1,4 +1,4 @@
-# 🥘 Dinner Planner - ID2216 Native Project
+# 🥘 Dinner Planner - ID2216 Developing Mobile Applications
 
 欢迎来到 **ID2216 (Developing Mobile Applications)** 原生开发项目！这是一个基于 **MVP (Model-View-Presenter)** 架构构建的晚餐规划应用。本项目专注于 React Native 的原生开发特性、响应式状态管理以及 Firebase 云端持久化。
 
@@ -46,7 +46,7 @@ npm run test tw3     # 运行全部 TW3 测试
 6.  **[异步请求与 API](./id2216_tutorials/06_fetch_async.md)**：Fetch 调用与异步逻辑封装。
 7.  **[Suspense 与渲染占位](./id2216_tutorials/07_suspense.md)**：提升用户体验的异步 UI 模式。
 8.  **[进阶状态逻辑](./id2216_tutorials/08_state_advanced.md)**：处理复杂的业务流转。
-9.  **[Firebase 持久化](./id2216_tutorials/10_firebase_auth.md)**：连接云端数据库 Firestore。
+9.  **[Firebase 持久化](./id2216_tutorials/10_persistence.md)**：连接云端数据库 Firestore。
 10. **[Expo Router 导航逻辑](./id2216_tutorials/11_navigation_logic.md)**：原生 Stack 与 Tab 导航实现。
 11. **[大项目启动指南](./id2216_tutorials/12_project_kickstart.md)**：从 Lab 到 Project 的转型建议。
 
