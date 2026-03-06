@@ -67,11 +67,26 @@ npm run test tw3     # 运行全部 TW3 测试
 
 ## 🎓 学习路径 (Tutorial Progress)
 
-本项目分为三个主要的教学周，你可以在 `solutions/` 文件夹中找到详细的审计报告：
+本项目按照 Tutorial Week 循序渐进，每一周都包含**知识点教程**与**通关文档**。
 
-1.  **[TW1: 基础与回调](./solutions/tw1/)**: JavaScript 核心、JSX 初探、MVP 入门。
-2.  **[TW2: 异步与副作用](./solutions/tw2/)**: Fetch API、Promises 处理、Suspense 模式。
-3.  **[TW3: 持久化与导航](./solutions/tw3/)**: Firestore 云存储、Expo Router 导航、平台适配。
+### Tutorial Week 1: 基础与原生视图 (The Basics)
+- **[TW1.1 JavaScript核心](./id2216_tutorials/01_js_callbacks.md)** | [通关文档](./solutions/tw1/TW1.1_JavaScript_and_Callbacks.md)
+- **[TW1.2 环境搭建与Props](./id2216_tutorials/02_rendering_native.md)** | [通关文档](./solutions/tw1/TW1.2.1_Bootstrapping_the_App.md)
+- **[TW1.3 数组渲染与样式](./id2216_tutorials/03_array_rendering_native.md)** | [通关文档](./solutions/tw1/TW1.3_Array_rendering_and_Styling.md)
+- **[TW1.4 原生事件处理](./id2216_tutorials/04_native_events.md)** | [通关文档](./solutions/tw1/TW1.4_Handle_native_events_and_fire_custom_events.md)
+- **[TW1.5 Presenter逻辑封装](./id2216_tutorials/05_presenter_logic_native.md)** | [通关文档](./solutions/tw1/TW1.5_Presenters_handle_custom_events_fired_by_Views.md)
+
+### Tutorial Week 2: 异步数据与状态 (Data & State)
+- **[TW2.1 API调用与Promises](./id2216_tutorials/06_api_promises.md)** | [通关文档](./solutions/tw2/TW2.1_Fetching_data_from_Web_APIs.md)
+- **[TW2.2 Side Effects处理](./id2216_tutorials/07_side_effects.md)** | [通关文档](./solutions/tw2/TW2.2_Resolving_promises_in_Application_State_and_Side_effects.md)
+- **[TW2.3 Suspense模式](./id2216_tutorials/08_suspense_native.md)** | [通关文档](./solutions/tw2/TW2.3.1_Suspense_in_Presenters.md)
+- **[TW2.4 & 2.5 复杂组件交互](./id2216_tutorials/09_complex_views_native.md)** | [通关文档](./solutions/tw2/TW2.5_Handle_Custom_Events_in_Presenters.md)
+
+### Tutorial Week 3: 持久化与导航 (Advanced Native)
+- **[TW3.1 Firebase持久化](./id2216_tutorials/10_persistence.md)** | [通关文档](./solutions/tw3/TW3.1_Persistence.md)
+- **[TW3.2 平台适配逻辑](./solutions/tw3/TW3.2_Platform_specific_rendering.md)**
+- **[TW3.3 Expo Router导航](./id2216_tutorials/11_navigation_logic.md)** | [通关文档](./solutions/tw3/TW3.3_Navigation.md)
+- **[TW3.5 Native专项任务](./solutions/tw3/TW3.5_Native_tasks.md)** (可选)
 
 ---
 
