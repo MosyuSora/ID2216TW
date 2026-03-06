@@ -72,3 +72,8 @@ export { Sidebar };
 
 ## 参考链接
 - [Canvas 章节: TW1.5](https://canvas.kth.se/courses/59201/modules/items/1360858)
+
+
+---
+
+⬅️ [上一章: TW1.4](./TW1.4_Handle_native_events_and_fire_custom_events.md) | [🏠 回到首页](../../README.md) | [下一章: TW1.6](./TW1.6_Forms_and_input.md) ➡️

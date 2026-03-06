@@ -294,3 +294,8 @@ export { DetailsView };
 
 ## 参考链接
 - [Canvas 章节: TW2.4](https://canvas.kth.se/courses/59201/modules/items/1360865)
+
+
+---
+
+⬅️ [上一章: TW2.3.1](./TW2.3.1_Suspense_in_Presenters.md) | [🏠 回到首页](../../README.md) | [下一章: TW2.5](./TW2.5_Handle_Custom_Events_in_Presenters.md) ➡️

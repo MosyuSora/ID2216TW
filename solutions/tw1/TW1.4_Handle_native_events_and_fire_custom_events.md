@@ -56,3 +56,8 @@ export default function SidebarView({ number, onNumberChange }) {
 
 ## 参考链接
 - [Canvas 章节: TW1.4](https://canvas.kth.se/courses/59201/modules/items/1360857)
+
+
+---
+
+⬅️ [上一章: TW1.3](./TW1.3_Array_rendering_and_Styling.md) | [🏠 回到首页](../../README.md) | [下一章: TW1.5](./TW1.5_Presenters_handle_custom_events_fired_by_Views.md) ➡️

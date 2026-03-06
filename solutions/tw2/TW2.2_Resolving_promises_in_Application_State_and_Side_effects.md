@@ -52,3 +52,8 @@ reaction(
 
 ## 参考链接
 - [Canvas 章节: TW2.2](https://canvas.kth.se/courses/59201/modules/items/1360862)
+
+
+---
+
+⬅️ [上一章: TW2.1](./TW2.1_Fetching_data_from_Web_APIs.md) | [🏠 回到首页](../../README.md) | [下一章: TW2.3.1](./TW2.3.1_Suspense_in_Presenters.md) ➡️

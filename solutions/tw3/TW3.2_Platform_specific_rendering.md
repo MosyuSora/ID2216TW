@@ -79,3 +79,8 @@ import { getCardStyle } from "./cardStyle";
 
 ## 参考链接
 - [Canvas 章节: TW3.2](https://canvas.kth.se/courses/59201/modules/items/1360870)
+
+
+---
+
+⬅️ [上一章: TW3.1](./TW3.1_Persistence.md) | [🏠 回到首页](../../README.md) | [下一章: TW3.3](./TW3.3_Navigation.md) ➡️

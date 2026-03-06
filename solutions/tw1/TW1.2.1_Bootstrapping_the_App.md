@@ -7,8 +7,8 @@
 3. 确保符合 Native 开发环境下的目录结构与合规性要求（根据测试脚本，根页面仅渲染 Sidebar）。
 
 ## 问题 Scope
-- [src/mobxReactiveModel.js](../../src/mobxReactiveModel.js) (Line 1-35)
-- [src/app/index.jsx](../../src/app/index.jsx) (Line 1-19)
+- [src/mobxReactiveModel.js (Line 1-35)](https://github.com/MosyuSora/ID2216TW/blob/main/src/mobxReactiveModel.js#L1-L35)
+- [src/app/index.jsx (Line 1-19)](https://github.com/MosyuSora/ID2216TW/blob/main/src/app/index.jsx#L1-L19)
 
 ## 对应知识点回顾
 - [03_rendering.md](../../id2216_tutorials/03_rendering.md): 讨论了 React/Expo 项目的渲染机制。
@@ -68,3 +68,8 @@ export default function IndexPage() {
 
 ## 参考链接
 - [Canvas 章节: TW1.2.1](https://canvas.kth.se/courses/59201/modules/items/1360853)
+
+
+---
+
+⬅️ [上一章: TW1.1](./TW1.1_JavaScript_and_Callbacks.md) | [🏠 回到首页](../../README.md) | [下一章: TW1.2.2](./TW1.2.2_Presenters_pass_props_to_Views.md) ➡️

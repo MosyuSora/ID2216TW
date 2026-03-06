@@ -6,9 +6,9 @@
 2. **状态分发**：在 `DetailsPresenter` 和 `SearchPresenter` 中集成 `PromiseState` 逻辑，根据异步状态自动切换显示。
 
 ## 问题 Scope
-- **通用视图**: [`/src/native-views/suspenseView.jsx`](../../src/native-views/suspenseView.jsx) (Line 1-42)
-- **详情控制**: [`/src/reactjs/detailsPresenter.jsx`](../../src/reactjs/detailsPresenter.jsx) (Line 1-35)
-- **搜索控制**: [`/src/reactjs/searchPresenter.jsx`](../../src/reactjs/searchPresenter.jsx) (Line 1-46)
+- **通用视图**: [`/src/native-views/suspenseView.jsx` (Line 1-42)](https://github.com/MosyuSora/ID2216TW/blob/main/src/native-views/suspenseView.jsx#L1-L42)
+- **详情控制**: [`/src/reactjs/detailsPresenter.jsx` (Line 1-35)](https://github.com/MosyuSora/ID2216TW/blob/main/src/reactjs/detailsPresenter.jsx#L1-L35)
+- **搜索控制**: [`/src/reactjs/searchPresenter.jsx` (Line 1-46)](https://github.com/MosyuSora/ID2216TW/blob/main/src/reactjs/searchPresenter.jsx#L1-L46)
 
 ## 对应知识点回顾
 - [07_suspense.md](../../id2216_tutorials/07_suspense.md): 介绍了声明式处理加载状态的 `Suspense` 概念，以及在项目中通过 `PromiseState` 模式（promise, data, error）手动实现 UI 状态机的方法。
@@ -59,3 +59,8 @@ const Search = observer(function Search({ model }) {
 
 ## 参考链接
 - [Canvas 章节: TW2.3.1](https://canvas.kth.se/courses/59201/modules/items/1401005)
+
+
+---
+
+⬅️ [上一章: TW2.2](./TW2.2_Resolving_promises_in_Application_State_and_Side_effects.md) | [🏠 回到首页](../../README.md) | [下一章: TW2.4](./TW2.4_Rendering_and_fire_custom_events_in_Views.md) ➡️

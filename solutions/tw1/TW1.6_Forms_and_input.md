@@ -82,3 +82,8 @@ const styles = StyleSheet.create({
   controlContainer: { marginTop: 5 },
 });
 ```
+
+
+---
+
+⬅️ [上一章: TW1.5](./TW1.5_Presenters_handle_custom_events_fired_by_Views.md) | [🏠 回到首页](../../README.md) | [下一章: TW2.1](../tw2/TW2.1_Fetching_data_from_Web_APIs.md) ➡️

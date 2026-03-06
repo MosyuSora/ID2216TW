@@ -54,3 +54,8 @@ Sidebar 需要实现一个计数器界面。核心在于 `disabled` 属性的布
 
 ## 参考链接
 - [Canvas 章节: TW1.2.3](https://canvas.kth.se/courses/59201/modules/items/1360855)
+
+
+---
+
+⬅️ [上一章: TW1.2.2](./TW1.2.2_Presenters_pass_props_to_Views.md) | [🏠 回到首页](../../README.md) | [下一章: TW1.3](./TW1.3_Array_rendering_and_Styling.md) ➡️

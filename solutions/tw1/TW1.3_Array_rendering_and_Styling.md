@@ -6,8 +6,8 @@
 2. **SidebarView**: 渲染已选菜品清单。要求按菜品类型排序，计算总价，处理人数加减逻辑，并为删除按钮添加特定测试 ID。
 
 ## 问题 Scope
-- [summaryView.jsx](../../src/native-views/summaryView.jsx) (Line 1-84)
-- [sidebarView.jsx](../../src/native-views/sidebarView.jsx) (Line 1-135)
+- [summaryView.jsx (Line 1-84)](https://github.com/MosyuSora/ID2216TW/blob/main/src/native-views/summaryView.jsx#L1-L84)
+- [sidebarView.jsx (Line 1-135)](https://github.com/MosyuSora/ID2216TW/blob/main/src/native-views/sidebarView.jsx#L1-L135)
 
 ## 对应知识点回顾
 - [03_rendering.md](../../id2216_tutorials/03_rendering.md): JSX 列表渲染 (`FlatList`)、条件渲染及样式处理。
@@ -76,3 +76,8 @@ function renderItemACB({ item: dish }) {
 
 ## 参考链接
 - [Canvas 章节: TW1.3](https://canvas.kth.se/courses/59201/modules/items/1360856)
+
+
+---
+
+⬅️ [上一章: TW1.2.3](./TW1.2.3_Basic_Rendering_in_Views.md) | [🏠 回到首页](../../README.md) | [下一章: TW1.4](./TW1.4_Handle_native_events_and_fire_custom_events.md) ➡️

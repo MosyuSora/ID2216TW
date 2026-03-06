@@ -69,3 +69,8 @@ export { Sidebar }; // 具名导出
 
 ## 参考链接
 - [Canvas 章节: TW1.2.2](https://canvas.kth.se/courses/59201/modules/items/1360854)
+
+
+---
+
+⬅️ [上一章: TW1.2.1](./TW1.2.1_Bootstrapping_the_App.md) | [🏠 回到首页](../../README.md) | [下一章: TW1.2.3](./TW1.2.3_Basic_Rendering_in_Views.md) ➡️

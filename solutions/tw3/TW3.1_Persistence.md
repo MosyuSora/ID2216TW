@@ -8,7 +8,7 @@
 4. 引入 `ready` 锁机制，防止初始加载时的状态覆盖云端数据。
 
 ## 问题 Scope
-- [src/persistence/firebasePersistence.js](../../ID2216TW/src/persistence/firebasePersistence.js) (Line 1-65)
+- [src/persistence/firebasePersistence.js (Line 1-65)](https://github.com/MosyuSora/ID2216TW/blob/main/ID2216TW/src/persistence/firebasePersistence.js#L1-L65)
 
 ## 对应知识点回顾
 - [08_state_advanced.md](../../ID2216TW/id2216_tutorials/08_state_advanced.md): 关于状态机与副作用同步的理论。
@@ -101,3 +101,8 @@ export { connectToPersistence };
 
 ## 参考链接
 - [Canvas 章节: TW3.1](https://canvas.kth.se/courses/59201/modules/items/1401003)
+
+
+---
+
+⬅️ [上一章: TW2.5](../tw2/TW2.5_Handle_Custom_Events_in_Presenters.md) | [🏠 回到首页](../../README.md) | [下一章: TW3.2](./TW3.2_Platform_specific_rendering.md) ➡️

@@ -114,3 +114,8 @@ export function getDishDetails(id) {
 
 ## 参考链接
 - [Canvas 章节: TW2.1](https://canvas.kth.se/courses/59201/modules/items/1360861)
+
+
+---
+
+⬅️ [上一章: TW1.6](../tw1/TW1.6_Forms_and_input.md) | [🏠 回到首页](../../README.md) | [下一章: TW2.2](./TW2.2_Resolving_promises_in_Application_State_and_Side_effects.md) ➡️

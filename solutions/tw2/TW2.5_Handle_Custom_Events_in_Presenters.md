@@ -128,3 +128,8 @@ export default Search;
 
 ## 参考链接
 - [Canvas 章节: TW2.5](https://canvas.kth.se/courses/59201/modules/items/1360866)
+
+
+---
+
+⬅️ [上一章: TW2.4](./TW2.4_Rendering_and_fire_custom_events_in_Views.md) | [🏠 回到首页](../../README.md) | [下一章: TW3.1](../tw3/TW3.1_Persistence.md) ➡️
