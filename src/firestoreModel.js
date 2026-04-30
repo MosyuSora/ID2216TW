@@ -23,7 +23,7 @@ function connectToPersistence(model, watchFunction) {
         return {
             numberOfGuests: model.numberOfGuests,
             dishes: model.dishes.map(function dishToIdCB(dish) { 
-                return { id: dish.id }; 
+                return { id: dish.id, title: dish.title }; 
             }),
             currentDishId: model.currentDishId || null
         };
@@ -65,8 +65,8 @@ function connectToPersistence(model, watchFunction) {
     if (dishData.length > 0) {
         const ids = dishData.map(function extractDishIdCB(d) { return d.id; });
         
-        // 设置 ID 占位
-        model.dishes = dishData.map(function mockDishCB(d) { return { id: d.id }; });
+        // 设置 ID + title 占位
+        model.dishes = dishData.map(function mockDishCB(d) { return { id: d.id, title: d.title }; });
 
         // 关键逻辑：这里必须返回 getMenuDetails，但由于测试环境会提前 resolve state.promise
         // 我们需要在内部闭包中处理可能的异步追踪问题
