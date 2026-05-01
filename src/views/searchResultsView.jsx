@@ -4,7 +4,7 @@ import { View, Text, FlatList, Pressable, Image } from 'react-native';
 function SearchResultsView(props) {
     function renderItemCB({ item }) {
         return (
-            <Pressable role="button" onPress={() => props.onSearchResultChosen(item)}>
+            <Pressable role="button" onPress={() => props.onDishChosen(item)}>
                 <Image source={{ uri: item.image }} style={{ width: 100, height: 100 }} />
                 <Text>iprog.Image</Text>
                 <Text>{item.title}</Text>

@@ -1,5 +1,5 @@
 import React from "react";
-import { SidebarView } from "../views/sidebarView.jsx"; // 注意：Native 环境下路由可能需要相对路径或按环境解析
+import SidebarView from "../views/sidebarView.jsx"; // 注意：Native 环境下路由可能需要相对路径或按环境解析
 import { observer } from "mobx-react-lite";
 
 /**

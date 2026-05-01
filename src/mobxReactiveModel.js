@@ -1,6 +1,9 @@
-import { observable, reaction } from "mobx"; // 引入 MobX 的 observable 和 reaction 函数
+import { observable, reaction, configure } from "mobx"; // 引入 MobX 的 observable 和 reaction 函数
 import { model } from "/src/DinnerModel"; // 从指定路径引入原始模型对象
 import { connectToPersistence } from "/src/firestoreModel.js";
+
+// 配置 MobX (由于本课程中大量使用了未显式标记 action 的直接赋值，比如在 Promise 回调里的赋值，我们需要关闭严格模式)
+configure({ enforceActions: "never" });
 
 /**
  * TW1.2.1 响应式模型构建

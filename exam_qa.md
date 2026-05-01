@@ -1,443 +1,488 @@
-# DH2642 Exam Q&A — TW1 + TW2 + TW3
+# DH2642 Exam Q&A - Concept Explanations
 
-> 格式：**问题** → **中文详细解析** → **English Short Answer**
-
----
-
-## TW1: MVP, Callbacks, Events
+> Format: **Bilingual Question** -> **中文详细解析** -> **English Official Short Answer**
 
 ---
 
-### Q1: What are the roles of Model, Presenter, and View?
+## TW1: MVP, Events, Callbacks
+
+---
+
+### Q1. What are Custom Events, callbacks, firing vs handling, and "props down, events up"?
+### Q1. 什么是自定义事件、回调函数、触发与处理，以及“属性向下传递，事件向上传递”？
 
 **中文详细解析：**
 
-MVP 是本课程的核心架构模式，三种角色各司其职：
+这几个概念其实是同一套交互机制的不同侧面。
 
-- **Model（模型）**：应用的"大脑"。负责存储所有状态（`dishes`、`numberOfGuests`、`currentDishId`）和业务逻辑（`addToMenu`、`doSearch`）。Model 完全不知道 UI 的存在，不引用任何 React 组件或渲染代码。在你的项目中，`DinnerModel.js` 就是一个纯 JS 对象，包含数据和操作数据的方法。
-- **Presenter（展示器）**：Model 和 View 之间的"翻译官"。从 Model 读取数据，作为 props 传递给 View；同时接收 View 触发的回调事件，将用户操作转化为对 Model 的方法调用。例如 `Search` Presenter 从 `model.searchResultsPromiseState` 读取搜索结果，创建 `SearchResultsView` 或 `SuspenseView`。
-- **View（视图）**：纯 UI 组件，只负责渲染，不包含任何业务逻辑。通过 props 接收数据，通过回调函数向上通知 Presenter。例如 `SearchFormView` 只渲染输入框和按钮，并不自己发起搜索。
+**1. 回调函数（callback）**
 
-**English Short Answer:**
+回调函数就是“我先把一个函数交给别人，等合适的时候再由别人调用它”。在前端里，View 不知道用户操作之后到底要改什么数据，所以它不会自己直接改 Model，而是通过调用 Presenter 传下来的函数，把“发生了什么”报告上去。
 
-- **Model**: Stores application state and business logic. No UI code. Example: `DinnerModel.js` holds `dishes`, `numberOfGuests`, `currentDishId` and methods like `doSearch()`, `addToMenu()`.
-- **Presenter**: Mediates between Model and View. Reads Model state, passes as props down to View. Receives callbacks from View, calls Model methods. Example: `searchPresenter.jsx`, `sidebarPresenter.jsx`.
-- **View**: Pure rendering component. Receives data via props, sends user actions via callback props. No business logic. Example: `searchFormView.jsx`, `searchResultsView.jsx`.
+**2. 自定义事件（custom event）**
+
+在这门课的代码里，自定义事件通常不是浏览器原生的 `CustomEvent` 对象，而是“通过回调表达的业务事件”。例如：
+
+- 用户改了搜索文字
+- 用户点击了搜索
+- 用户选中了某道菜
+
+这些都不是 View 自己要处理完的事情，而是要通知上层：“这个业务事件发生了”。
+
+**3. Firing vs Handling**
+
+- **Firing（触发）**：事件从 View 发出去。做法通常是调用一个 props 里的函数，例如 `props.onSearchClick()`。
+- **Handling（处理）**：事件在 Presenter 里被接住并转化为真实动作，例如调用 `model.doSearch(...)` 或 `model.setCurrentDishId(...)`。
+
+所以，View 负责说“发生了”，Presenter 负责决定“接下来怎么办”。
+
+**4. Props down, events up**
+
+这是一条单向数据流规则：
+
+- **Props down**：数据从 Presenter 往下传给 View。Presenter 从 Model 读状态，再把这些状态作为 props 交给 View。
+- **Events up**：用户交互从 View 往上传。View 不直接改状态，而是调用回调，把事件交给 Presenter。
+
+这条规则的意义是把“显示数据”和“修改数据”分开。View 只负责显示，Presenter 负责连接 Model 和 View，Model 才是状态的真正拥有者。
+
+结合你的代码可以这样理解：Presenter 把搜索框当前文字和菜品类型传给 View，这是 props down；用户输入或提交时，View 调用 `onSearchTextChange`、`onSearchClick`，这是 events up。
+
+**English Official Short Answer:**
+
+Custom events in this course are usually implemented with callback props rather than browser `CustomEvent` objects. The View **fires** an event by calling a callback such as `onSearchClick()`, and the Presenter **handles** it by deciding what to do, for example calling a Model method. "Props down, events up" means data flows downward from Presenter to View as props, while user interaction flows upward from View to Presenter through callbacks. This keeps state centralized and the UI predictable.
 
 ---
 
-### Q2: What does "Props Down, Events Up" mean?
+### Q2. What is the difference between synchronous and asynchronous callbacks?
+### Q2. 同步回调与异步回调有什么区别？
 
 **中文详细解析：**
 
-这是 MVP 模式中数据流的核心规则：
+关键区别不在于“是不是用了函数参数”，而在于“这个回调什么时候执行”。
 
-- **Props Down（属性向下）**：数据单向地从 Presenter 流向 View。Presenter 将 Model 中的数据作为 props 传递给 View 组件。View 是被动的，它只显示传入的数据，从不主动修改数据源。
-- **Events Up（事件向上）**：当用户在 View 中操作时（点击、输入），View 不直接修改数据，而是通过调用 props 中传递的回调函数向 Presenter 报告事件。Presenter 再决定如何处理（调用 Model 方法）。
+- **同步回调（synchronous callback）**：调用方立刻执行回调，执行完回调之后才继续往下走。
+- **异步回调（asynchronous callback）**：调用方先把任务交出去，回调会在未来某个时间点再执行，当前代码不会停在这里等它。
 
-这种单向数据流确保了程序的可预测性：数据永远在 Model 中，View 永远只是 Model 的投影。
+你可以把同步回调理解成“当场处理”，把异步回调理解成“稍后通知结果”。
 
-在你的代码中，`Search` Presenter 将 `text`、`type` 作为 props 传给 `SearchFormView`（props down），同时传入 `onSearchClick`、`onSearchTextChange` 回调函数。当用户在输入框中打字时，View 调用 `props.onSearchTextChange(txt)`（events up）。
+在本项目里：
 
-**English Short Answer:**
+- `filter()` 里的回调是同步回调。数组遍历时，回调立即执行，遍历结束之后结果立刻出来。
+- Promise 的 `.then(successACB)` 和 `.catch(failureACB)` 是异步回调。网络请求先发出去，等 Promise resolve 或 reject 之后，这些回调才会被调度执行。
 
-- **Props Down ↓**: Presenter passes Model data to View as props. Data flows one-way, View never modifies data directly. Example: `SearchFormView` receives `text`, `type` props.
-- **Events Up ↑**: View notifies Presenter of user actions by calling callback functions received as props. Example: `onSearchClick()`, `onSearchTextChange(txt)`. Presenter then calls Model methods.
-- This ensures unidirectional data flow — state always lives in Model.
+为什么这个区别重要？因为异步回调会带来“现在还没结果”的状态，于是你需要：
+
+- 存 loading 状态
+- 存 error 状态
+- 处理旧请求比新请求更晚返回的竞态问题
+
+同步回调通常不会有这些问题，因为结果马上就在当前调用栈里产生了。
+
+**English Official Short Answer:**
+
+A synchronous callback runs immediately in the current call stack, before the caller continues. An asynchronous callback runs later, after some future event such as a Promise resolution or a network response. In this project, `filter()` uses synchronous callbacks, while `.then()` and `.catch()` use asynchronous callbacks.
 
 ---
 
-### Q3: Custom Events — What is the difference between Firing and Handling?
+### Q3. What are the roles of Model, Presenter, and View?
+### Q3. 模型（Model）、展示器（Presenter）、视图（View）分别扮演什么角色？
 
 **中文详细解析：**
 
-自定义事件（Custom Events）在本项目中不是浏览器原生的 `CustomEvent`，而是通过回调函数实现的事件模式：
+MVP 的核心不是把代码分成三份，而是把责任拆清楚。
 
-- **触发（Firing）**：View 在响应用户交互时调用 props 中的回调函数。例如 `SearchFormView` 中，当用户按回车键时执行 `props.onSearchClick()`。View 不关心这个函数具体做什么，只知道"该事件发生了"。
-- **处理（Handling）**：Presenter 在创建 View 时定义这些回调函数的具体实现。例如 `onSearchClickACB` 内部调用 `model.doSearch(model.searchParams)`。Presenter 决定事件发生后应该做什么。
+**Model**
 
-这种分工让 View 保持简单和可复用——同一个 View 可以通过传入不同的回调函数，在不同的 Presenter 中表现出不同的行为。
+Model 负责保存应用状态和业务逻辑。它知道有哪些数据、这些数据怎么改、异步请求结果放在哪里，但它不负责界面长什么样。在你的项目里，`numberOfGuests`、`dishes`、`currentDishId`、搜索参数、Promise state 都属于 Model 层。
 
-**English Short Answer:**
+**Presenter**
 
-- **Firing**: View calls callback props when user interacts. View doesn't know what happens — just signals "this event occurred". Example: `props.onSearchClick()` in `SearchFormView`.
-- **Handling**: Presenter defines what the callback does. Example: `function onSearchClickACB() { model.doSearch(...) }`.
-- Fire in View, Handle in Presenter. This keeps View simple and reusable.
+Presenter 是中间层。它从 Model 里读状态，把状态整理成 View 需要的 props；同时它也接收 View 抛上来的事件，再调用 Model 的方法去改状态。Presenter 的价值不在“显示界面”，而在“组织数据流和交互逻辑”。
+
+**View**
+
+View 是纯渲染层。它的任务是把收到的 props 变成界面，并在用户交互时调用 props 中的回调函数。理想状态下，View 不直接知道数据来自哪里，也不直接知道业务规则。
+
+一句话区分：
+
+- Model 负责“存什么、怎么变”
+- Presenter 负责“怎么连接”
+- View 负责“怎么显示”
+
+这种分工能让代码更容易测试，也更容易定位问题。数据逻辑错了，看 Model 或 Presenter；界面渲染错了，看 View。
+
+**English Official Short Answer:**
+
+The **Model** stores application state and business logic. The **Presenter** connects the Model and the View by reading Model data, passing it down as props, and reacting to user events. The **View** is responsible for rendering the UI and emitting user actions through callback props. This separation keeps logic organized and maintainable.
 
 ---
 
-### Q4: What is the difference between Synchronous and Asynchronous Callbacks?
+### Q4. What is a Promise?
+### Q4. 什么是 Promise（承诺）？
 
 **中文详细解析：**
 
-回调函数根据执行时机分为两类：
+Promise 是 JavaScript 对异步结果的一种标准表示方式。它表达的不是“已经拿到结果”，而是“这个结果以后会有”。
 
-- **同步回调（Synchronous Callback）**：回调函数在当前代码执行完毕前被立即调用，阻塞后续代码。典型的同步回调包括数组的高阶函数：`Array.filter(cb)`、`Array.sort(cb)`、`Array.map(cb)`。这些方法会在回调函数执行完后才返回结果，不会引入异步性。例如 `DinnerModel.js` 中 `this.dishes.filter(shouldWeKeepDishCB)` —— 回调对每个元素立即执行。
+它通常有三种状态：
 
-- **异步回调（Asynchronous Callback）**：回调函数在将来的某个时刻被调用，不阻塞当前代码的执行。Promise 的 `.then(successACB)` 是最典型的异步回调 —— 回调被放入微任务队列，等 Promise resolve 后才执行。其他例子包括 `setTimeout`、事件监听器、`fetch` 回调。
+- **pending**：还在进行中
+- **fulfilled**：成功拿到结果
+- **rejected**：执行失败
 
-关键区别：同步回调在同一个调用栈中完成；异步回调在独立的微任务/宏任务中执行，不阻塞事件循环。
+Promise 的价值主要有三点：
 
-**English Short Answer:**
+**1. 统一表达异步结果**
 
-- **Synchronous**: Executes immediately in the same call stack. Blocks current code. Examples: `array.filter(cb)`, `array.sort(cb)` in `DinnerModel.js`.
-- **Asynchronous**: Executes later when condition is met. Does not block the event loop. Examples: `.then(successACB)` in `resolvePromise.js`, `setTimeout`, event listeners.
-- Key difference: sync runs now (same call stack), async runs later (microtask/macrotask queue).
+无论是网络请求、延迟任务，还是链式处理，都可以用 Promise 表示，不需要每个 API 都发明自己的一套回调协议。
+
+**2. 链式处理更清楚**
+
+你可以把步骤串起来：先拿 HTTP 响应，再转 JSON，再提取需要的数据。这样比把回调一层层嵌套进去更清楚。
+
+**3. 错误传播更自然**
+
+在 Promise 链中抛出的错误可以沿着链传到 `.catch()`，不用每一层都手动写独立的错误出口。
+
+在这份项目里，API 函数像 `searchDishes()`、`getDishDetails()` 都返回 Promise。Presenter 或 Model 不会立刻拿到最终数据，而是先把 Promise 交给 `resolvePromise()` 去管理 loading、data、error 三种状态。
+
+**English Official Short Answer:**
+
+A Promise is an object that represents the future result of an asynchronous operation. It can be pending, fulfilled, or rejected. Promises are useful because they standardize async programming, support chaining with `.then()`, and allow centralized error handling with `.catch()`.
 
 ---
 
-## TW2: Promises, Fetch, Async State
+## TW2: Fetch, Async State, UX
 
 ---
 
-### Q5: What is a Promise? Why use them?
+### Q5. Why is Fetch / HTTP a two-stage Promise, and where are the two stages in the code?
+### Q5. 为什么 Fetch / HTTP 是两阶段 Promise？这两个阶段在代码里分别是什么？
 
 **中文详细解析：**
 
-Promise 是 JavaScript 中处理异步操作的核心机制。它是一个表示"将来某个时刻才会完成"操作的对象。
+Fetch 看起来像一次异步操作，但实际上浏览器把它拆成了两个阶段，因为“拿到响应对象”和“读完响应体内容”不是同一件事。
 
-Promise 有三种状态：
-- **Pending（待定）**：操作仍在进行中
-- **Fulfilled（已兑现）**：操作成功完成
-- **Rejected（已拒绝）**：操作失败
+**阶段 1：`fetch(...)` 返回 `Promise<Response>`**
 
-Promise 的优点：
-1. **链式调用**：通过 `.then()` 串联多个异步操作，避免"回调地狱"（嵌套回调层层缩进）
-2. **统一错误处理**：`.catch()` 可以捕获链条中任何一步的错误
-3. **可组合性**：`Promise.all()`、`Promise.race()` 等组合多个 Promise
+这一步只代表浏览器拿到了 HTTP 响应对象。此时你已经可以检查：
 
-在你的项目中，所有 API 调用（`searchDishes`、`getDishDetails`）都返回 Promise。`resolvePromise.js` 是 Promise 状态管理的核心工具。
+- 状态码是不是成功
+- 响应头是什么
+- `response.ok` 是否为真
 
-**English Short Answer:**
+但这时响应体里的 JSON 数据还没有真正解析出来。
 
-A Promise represents an async operation with 3 states: pending, fulfilled, rejected. Benefits: chainable via `.then()` (avoids callback hell), centralized error handling via `.catch()`, composable with `Promise.all()`. All API calls in this project return Promises.
+**阶段 2：`response.json()` 返回 `Promise<data>`**
+
+这一步才是把响应体读取并解析成 JavaScript 对象。因为读取 body 和解析 JSON 也需要时间，所以它本身又是一个 Promise。
+
+在你的代码中，这两个阶段对应得很清楚：
+
+- 第一阶段发生在 `fetch(url, ...)`
+- 第二阶段发生在 `gotResponseACB(response)` 里面的 `return response.json()`
+
+还有一个很容易考到的点：`fetch()` 不会因为 HTTP 404 或 500 自动 reject。只要网络层没断，它通常还是 resolve 一个 `Response`，所以你必须自己检查 `response.ok`。
+
+**English Official Short Answer:**
+
+Fetch is a two-stage Promise because receiving the HTTP `Response` object and parsing the response body are separate asynchronous steps. Stage 1 is `fetch(url)` which resolves to a `Response`. Stage 2 is `response.json()` which resolves to parsed data. In this code, the second stage appears inside `gotResponseACB`, after checking `response.ok`.
 
 ---
 
-### Q6: Why is Fetch/HTTP a Two-Stage Promise? Identify the stages in your code.
+### Q6. How is Promise state managed, and how are race conditions avoided?
+### Q6. Promise 状态是如何管理的？又是如何避免竞态条件的？
 
 **中文详细解析：**
 
-Fetch 是两阶段 Promise 是因为浏览器将 HTTP 响应分为两个部分处理：
+只要界面允许用户连续触发异步请求，就可能出现竞态条件。典型情况是：
 
-- **阶段 1（`fetch()` → `Promise<Response>`）**：fetch 返回的 Promise 解析为 `Response` 对象。此时 HTTP 状态码和响应头已经可用，但响应体（body）可能尚未完全下载。**重要**：fetch 不会因为 HTTP 错误状态码（如 404、500）而 reject —— 它只在网络故障时才 reject。你必须手动检查 `response.ok` 或 `response.status`。
+1. 用户先搜 A
+2. 又立刻搜 B
+3. B 本来才是最新请求
+4. 但 A 比 B 更晚返回
+5. 如果你直接写结果，旧的 A 就会覆盖新的 B
 
-- **阶段 2（`response.json()` → `Promise<data>`）**：将响应体解析为 JSON 对象，这是一个独立的异步操作，因为响应体可能很大，需要时间来读取和解析。
+`resolvePromise()` 解决这个问题的方式很直接，而且非常标准。
 
-在你的代码 `dishSource.js` 中：
-```js
-function gotResponseACB(response) {
-    if (!response.ok) throw new Error(...);  // 检查状态码
-    return response.json();                   // 阶段 2: 解析 JSON
-}
-```
+**第一步：记录“当前最新 Promise”**
 
-这种两阶段设计让你可以在解析 JSON 之前检查 HTTP 响应是否成功，避免对错误响应进行无用的 JSON 解析。
+一旦发起新请求，就把 `promiseState.promise = prms`。这代表“从现在开始，这个 Promise 才是合法的最新请求”。
 
-**English Short Answer:**
+**第二步：重置旧状态**
 
-- **Stage 1**: `fetch(url)` → `Promise<Response>`. Headers & status available. `fetch()` never rejects on HTTP 404/500 — must check `response.ok` manually.
-- **Stage 2**: `response.json()` → `Promise<data>`. Parses body as JSON, separate async operation.
-- In `dishSource.js`: `gotResponseACB` checks `response.ok` first, then calls `.json()` for stage 2.
+把：
+
+- `promiseState.data = null`
+- `promiseState.error = null`
+
+这样界面就知道现在进入新一轮加载，而不是继续显示上一次的数据或错误。
+
+**第三步：在成功和失败回调里做身份检查**
+
+不管 Promise 最后成功还是失败，都先检查：
+
+- `promiseState.promise === prms`
+
+只有当这个条件还成立，才说明这个回调属于“当前仍然最新”的那一次请求。否则就说明它已经过期，应该被丢弃。
+
+这个判断就是避免 race condition 的核心。它不是阻止旧请求返回，而是阻止旧请求覆盖新状态。
+
+**English Official Short Answer:**
+
+Promise state is managed by storing the current Promise together with `data` and `error` in a `promiseState` object. When a new request starts, the code saves that Promise as the latest one and resets previous `data` and `error`. Race conditions are avoided by checking `promiseState.promise === prms` inside success and failure callbacks, so only the latest request is allowed to update the state.
 
 ---
 
-### Q7: Why does `searchDishes` have two `.then()` calls but `getMenuDetails` only one?
+### Q7. How do you ensure a good user experience during asynchronous data retrieval?
+### Q7. 如何在获取异步数据时保证良好的用户体验？
 
 **中文详细解析：**
 
-这不是"两阶段"的数量问题，而是取决于 API 返回的数据结构是否需要额外处理：
+异步加载最怕两件事：第一，界面什么都不显示，用户不知道发生了什么；第二，加载、错误、成功这几种状态混在一起，界面不稳定。
 
-- `searchDishes` 调用的 API 返回一个包装对象：
-  ```json
-  { "results": [...dishes...], "offset": 0, "number": 10, "totalResults": 500 }
-  ```
-  我们只需要 `results` 数组，所以需要 `extractResultsACB(data)` 来提取 `data.results`。因此多了一个 `.then(extractResultsACB)`。
+一个好的 UX 做法，是让界面在每个时刻都处于一种明确状态。
 
-- `getMenuDetails` 调用的 API 直接返回菜品数组：
-  ```json
-  [{ id: 1, title: "Pasta", ... }, { id: 2, title: "Pizza", ... }]
-  ```
-  数组本身就是我们需要的，无需额外提取，直接返回即可。
+在你的项目里，这主要靠两层配合：
 
-第三个 `.then()`（`extractResultsACB`）是数据转换步骤，不是新的 Promise 阶段。`fetch()` + `.json()` 才是核心的两阶段。
+**1. 条件渲染（conditional rendering）**
 
-**English Short Answer:**
+Presenter 先判断 Promise state 里有没有 `data`。如果有，就渲染真正的数据 View；如果没有，就渲染一个专门负责异步状态的 View。
 
-- `searchDishes`: API wraps results in `{ results: [...], totalResults: 500 }` → needs `extractResultsACB` to unwrap `data.results`. Hence extra `.then()`.
-- `getMenuDetails`: API directly returns `[{...}, {...}]` → no unwrapping needed. Full `.then()` chain is 2 steps (not 3).
-- The extra `.then()` is data transformation, not a new Promise stage. The two core stages remain: fetch → .json().
+这说明 Presenter 在做“界面分流”：
+
+- 有结果 -> 显示结果
+- 没结果 -> 交给 SuspenseView
+
+**2. Suspense 风格的状态视图**
+
+`SuspenseView` 不负责业务数据本身，它负责把异步过程翻译成用户看得懂的界面状态：
+
+- 没有 promise：说明还没开始请求，显示 no data
+- 有 promise 但还没 data/error：说明正在加载，显示 loading
+- 有 error：显示错误信息
+- 有 data：返回 `null`，因为真实业务视图会由 Presenter 来接管
+
+这种设计的好处是：
+
+- 不会白屏
+- 不会让用户误以为程序卡死
+- 错误信息有明确出口
+- 成功状态切换清楚，不会和 loading 混在一起
+
+**English Official Short Answer:**
+
+Good async UX is achieved by explicit state-based rendering. The Presenter uses conditional rendering: if data exists, it renders the real results view; otherwise it renders a suspense-style status view. The suspense view covers the main states: no data yet, loading, error, and success handoff. This prevents blank screens and gives clear feedback while data is being fetched.
 
 ---
 
-### Q8: How are HTTP Method, Headers, Query String, Body, and Response Status used in your API calls?
+### Q8. What are HTTP method, headers, query string, body, and response status, and how are they used in your API code?
+### Q8. HTTP 方法、请求头、查询字符串、请求体、响应状态分别是什么？它们在你的 API 代码里怎么用？
 
 **中文详细解析：**
 
-在你的 `dishSource.js` 中，每个 fetch 请求都涉及这些 HTTP 概念：
+这些都是 HTTP 请求和响应的基本组成部分，考试里通常不是让你背定义，而是让你结合项目代码解释。
 
-- **HTTP Method（方法）**：`fetch()` 默认使用 GET 方法。GET 用于从服务器获取数据，不修改服务器状态。你的项目只使用 GET（通过代理访问 Spoonacular API）。POST 才会用 body，但本项目不需要。
+**1. Method（HTTP 方法）**
 
-- **Headers（请求头）**：通过 `headers` 对象传递额外信息。你的代码使用了两个自定义头：
-  - `X-DH2642-Key`：API 密钥，用于身份认证
-  - `X-DH2642-Group`：组号 `"201"`（来自 Canvas ID 59201 的后三位）
+HTTP 方法说明“这次请求想做什么”。常见有 GET、POST、PUT、DELETE。你的项目里请求 Spoonacular 数据时主要使用 **GET**，因为你是在读取数据，不是在服务器上新建或修改资源。
 
-- **Query String（查询字符串）**：通过 `new URLSearchParams(searchParams)` 构建 URL 参数。例如 `{ query: "pasta", type: "main course" }` 会变为 `?query=pasta&type=main+course`。对于批量接口，使用 `{ ids: "1,2,3" }`。
+**2. Headers（请求头）**
 
-- **Body（请求体）**：GET 请求没有 body。只有 POST/PUT 请求才会在 `fetch()` 的第二个参数中设置 `body` 字段。
+Headers 是附带在请求上的元信息。它不直接放业务数据，而是提供身份、格式、权限之类的信息。你的代码里最关键的是：
 
-- **Response Status（响应状态码）**：在 `gotResponseACB` 中检查 `response.ok`。`response.ok` 在状态码为 200-299 时返回 `true`。如果不 ok，抛出包含 `response.status` 的错误。
+- `X-DH2642-Key`：API key
+- `X-DH2642-Group`：课程分组标识
 
-**English Short Answer:**
+也就是说，headers 在这里承担“认证和标识请求来源”的作用。
 
-- **Method**: GET (default). Only reading data, never modifying server state.
-- **Headers**: `X-DH2642-Key` for authentication, `X-DH2642-Group: "201"` for group ID.
-- **Query String**: Built with `new URLSearchParams(params)` → `?query=pasta&type=main+course`.
-- **Body**: Not used (GET requests have no body; only POST/PUT use body).
-- **Response Status**: Checked via `response.ok` (true for 200-299) in `gotResponseACB`. Throws error with `response.status` on failure.
+**3. Query String（查询字符串）**
+
+Query string 是 URL 末尾 `?` 后面的参数，例如 `?query=pasta&type=main+course`。它通常用于 GET 请求，把搜索条件附在 URL 上。你的代码里是通过 `new URLSearchParams(...)` 生成的，这样可以避免手写字符串拼接出错。
+
+**4. Body（请求体）**
+
+Body 是请求真正携带的数据，通常在 POST、PUT、PATCH 里更常见。你的这些 GET 请求一般没有 body，因为查询条件已经放在 URL query string 里了。
+
+**5. Response Status（响应状态码）**
+
+状态码说明服务器返回结果是否成功，例如：
+
+- 200 表示成功
+- 404 表示没找到
+- 500 表示服务器错误
+
+在你的代码里，状态通过 `response.ok` 和 `response.status` 来检查。如果 `response.ok` 为假，就抛出错误，而不是继续去解析 JSON。
+
+所以在本项目中，这些概念不是孤立的：
+
+- method 决定请求类型
+- query string 负责传搜索条件
+- headers 负责认证和组号
+- body 在当前 GET 场景下基本不用
+- response status 用来决定是否进入成功逻辑
+
+**English Official Short Answer:**
+
+The HTTP **method** describes the type of request; this project mainly uses `GET` because it reads data from an API. **Headers** carry metadata such as the API key and group identifier. The **query string** appends search parameters to the URL using `URLSearchParams`. The **body** is not used here because these are GET requests. The **response status** is checked through `response.ok` and `response.status` before parsing JSON.
 
 ---
 
-### Q9: How does `resolvePromise.js` manage Promise state and avoid race conditions?
+## TW3: Reactivity, Side Effects, Persistence
+
+---
+
+### Q9. What are reactive objects and side effects?
+### Q9. 什么是响应式对象（reactive objects）和副作用（side effects）？
 
 **中文详细解析：**
 
-竞态条件（Race Condition）发生在用户快速连续操作时。例如：用户先搜索 "chicken"，在结果返回前又搜索 "pasta"。如果 "chicken" 的请求先发出但后返回，它的结果可能覆盖 "pasta" 的结果 —— 用户看到的是 "chicken" 而不是最新搜索的 "pasta"。
+这两个概念经常一起出现，因为“响应式”负责发现数据变化，“副作用”负责在变化发生时做额外动作。
 
-`resolvePromise.js` 通过以下机制解决这个问题：
+**1. Reactive object（响应式对象）**
 
-1. **`promiseState.promise` 始终指向最新发起的请求**。每当新的 `resolvePromise(prms, promiseState)` 被调用时，`promiseState.promise` 被更新为 `prms`。
+响应式对象不是普通“存数据的对象”而已，它还能让系统追踪“谁读取了这个数据、什么时候这个数据变了”。在你的项目里，普通的 `model` 被 `observable(model)` 包装之后，就变成了 reactive object。
 
-2. **回调函数中的身份检查**：在 `successACB` 和 `failureACB` 中，比较 `promiseState.promise === prms`（闭包中捕获的 `prms`）。如果 `promiseState.promise` 已经变了（说明有更新的请求发出），旧的 `prms` 不匹配，回调直接跳过，不更新 data/error。
+这意味着：
 
-3. **初始化状态重置**：每次调用时先将 `data` 和 `error` 设为 `null`，确保 old data 不会短暂显示。
+- Presenter 读取它的属性时，MobX 能记住依赖关系
+- 这些属性变化时，相关组件会自动重新渲染
 
-这样确保了只有最新请求的结果才会被写入 `promiseState`。
+所以响应式对象解决的是“状态变了，界面怎么自动跟上”的问题。
 
-**English Short Answer:**
+**2. Side effect（副作用）**
 
-Race condition: user searches "chicken" then immediately "pasta". Without protection, stale "chicken" results could overwrite "pasta".
+副作用是“数据变化之后，除了更新界面以外，还要额外做的事情”。只要这个动作不是单纯返回一个值或渲染 UI，而是去影响外部世界，它通常就是副作用，例如：
 
-Solution in `resolvePromise.js`:
-- `promiseState.promise` always stores the latest request's promise.
-- In callbacks: `if (promiseState.promise === prms)` — only update state if this promise is still the latest.
-- Sets `data` and `error` to `null` at start of each new request.
-- Stale callbacks are silently discarded when their promise no longer matches.
+- 发网络请求
+- 写入数据库
+- 记录日志
+- 触发定时器
+
+在你的项目里，`reaction(...)` 就是在定义副作用：当某个响应式数据源变化时，自动运行一个 effect 函数。
+
+因此可以这样区分：
+
+- **响应式对象**负责让变化“可被观察”
+- **副作用**负责在观察到变化后执行“额外动作”
+
+**English Official Short Answer:**
+
+Reactive objects are state objects whose property reads and writes are tracked by a reactive system such as MobX. This allows the UI to re-render automatically when observed state changes. Side effects are extra actions triggered by state changes, such as API calls or persistence writes. In this project, reactive objects come from `observable(model)`, and side effects are defined with `reaction(...)`.
 
 ---
 
-### Q10: How do you ensure good UX during async data retrieval? (Conditional Rendering, Suspense)
+### Q10. What are the side effects in your reactive objects?
+### Q10. 你的响应式对象中有哪些副作用？
 
 **中文详细解析：**
 
-良好的异步数据体验需要覆盖所有可能的状态。你的实现通过两层机制保证：
+考试回答这一题时，最好不要只说“副作用就是 API 调用”，而是直接指出项目里的具体副作用位置。
 
-**第一层：`SuspenseView`（4 种状态）**
+在你的代码里，至少有这些明确的副作用：
 
-`SuspenseView` 根据 Promise 状态渲染不同的 UI：
+**1. 初始搜索**
 
-1. **无数据（`!promise`）**：显示 "no data" 文本 —— 用户知道还没有任何搜索被触发
-2. **加载中（`promise && !data && !error`）**：显示加载动画 GIF —— 用户知道正在进行中，不会以为应用卡死
-3. **失败（`error`）**：显示红色错误消息 —— 用户知道出了问题，可以看到错误信息
-4. **成功（`data`）**：返回 `null` —— 由 Presenter 接管，渲染实际的数据 View
+模块加载后，`reactiveModel.doSearch({})` 会立即执行一次默认搜索。这个动作不是渲染的一部分，而是主动发起异步请求，所以它是副作用。
 
-**第二层：Presenter 中的条件渲染**
+**2. 当前菜品变化后自动抓详情**
 
-在 `searchPresenter.jsx` 中：
-```js
-if (ps?.data) {
-    result = <SearchResultsView .../>;   // 有数据 → 渲染结果
-} else {
-    result = <SuspenseView .../>;        // 无数据 → 加载/错误状态
-}
-```
+`reaction(() => reactiveModel.currentDishId, () => reactiveModel.currentDishEffect())`
 
-这种设计让 UI 永远处于明确的、对用户友好的状态，从不白屏或卡死。
+这表示：只要当前选中的菜品 ID 变化，就自动去请求该菜品详情。这是典型的“状态变化 -> 触发外部异步请求”的副作用。
 
-**English Short Answer:**
+**3. 数据持久化到 Firestore**
 
-Two layers:
-1. **SuspenseView** handles 4 states: no promise → "no data", loading → animated GIF, error → red message, success → null (Presenter takes over).
-2. **Presenter conditional rendering**: `if (ps?.data) render ResultsView; else render SuspenseView`.
-This ensures UI is always in a clear, user-friendly state — never blank or stuck.
+在持久化连接中，系统监视 `numberOfGuests`、`dishes`、`currentDishId`。一旦这些数据变化，并且 `model.ready` 已经允许写入，就会调用 `setDoc(...)` 把状态同步到 Firestore。这也是副作用，因为它修改了外部存储。
+
+如果你想一句话总结：本项目里的副作用主要分两类，一类是“向 API 读数据”，另一类是“向 Firestore 写数据”。
+
+**English Official Short Answer:**
+
+The main side effects in this project are: an initial search triggered when the reactive model module loads, automatic fetching of dish details when `currentDishId` changes, and persistence writes to Firestore when observed model data changes. These actions are side effects because they interact with external systems rather than only computing values for rendering.
 
 ---
 
-## TW3: Persistence, Reactive Objects, Side Effects
-
----
-
-### Q11: What is Persistence? How does Model ↔ Firestore bidirectional sync work?
+### Q11. What is Persistence?
+### Q11. 什么是 Persistence（持久化）？
 
 **中文详细解析：**
 
-持久化（Persistence）是指将应用状态保存到云端数据库（Firebase Firestore），使数据在页面刷新、关闭重开甚至换设备后都能恢复。
+Persistence 的核心意思是：把应用当前状态保存到一个在页面刷新后仍然存在的地方。否则，用户一刷新页面，内存里的状态就全没了。
 
-你的代码实现了**双向同步**：
+在这个项目里，Persistence 主要指把 Model 的关键状态同步到 Firestore，再在应用启动时从 Firestore 恢复回来。
 
-**方向一：Model → Firestore（侧向持久化 / Sideways Persistence）**
+你可以把它理解成两个方向：
 
-通过 MobX 的 `reaction` 函数监听 Model 中的关键属性变化：
-```js
-watchFunction(
-    () => [model.numberOfGuests, model.dishes, model.currentDishId],  // 追踪
-    () => { if (model.ready) setDoc(docRef, modelToPersistence(model), { merge: true }); }
-);
-```
-- 只追踪 `numberOfGuests`、`dishes`、`currentDishId` 三个属性
-- **门控** `model.ready`：只有初始恢复完成后才允许写入
-- **序列化** `modelToPersistence()`：将 Model 转为轻量数据（只保存 `id` 和 `title`）
-- **合并写入** `{ merge: true }`：只更新指定字段，不覆盖云端其他数据
+- **保存**：本地 Model 变了，把更新写到云端
+- **恢复**：应用重新打开时，从云端读回来再恢复到 Model
 
-**方向二：Firestore → Model（恢复持久化 / Restore）**
+为什么这件事重要？因为它让应用不再只是“临时运行一次”的前端，而是有连续性的状态：
 
-应用启动时：
-```js
-getDoc(docRef)
-    .then(snapshot => persistenceToModel(data))
-    .then(() => { model.ready = true; });
-```
-- 从 Firestore 读取文档
-- `persistenceToModel()` 恢复 `numberOfGuests`、`currentDishId` 和菜品的 `id`+`title`
-- 重新调用 `getMenuDetails(ids)` 获取完整菜谱详情（因为 Firestore 只存了轻量数据）
-- 失败时容忍错误（`.catch` 忽略），因为 ID 已经保留了
+- 用户选过的菜还在
+- 客人数还在
+- 当前浏览的菜品还能恢复
 
-**English Short Answer:**
+所以，Persistence 解决的是“状态跨刷新、跨会话、跨设备保留”的问题。
 
-Bidirectional sync between Model and Firestore:
-- **Model → Firestore**: MobX `reaction` watches `[dishes, numberOfGuests, currentDishId]`. When changed AND `model.ready === true`, writes via `setDoc(docRef, serializedData, { merge: true })`.
-- **Firestore → Model**: `getDoc(docRef)` on startup. Restores basic data (IDs + titles), then re-fetches full dish details via `getMenuDetails(ids)`.
-- **Write guard**: `model.ready = false` during initial restore, set to `true` after restore completes.
-- Serialization: Firestore stores only `id` + `title` (lightweight). Full details fetched from API on restore.
+**English Official Short Answer:**
+
+Persistence means storing application state outside the running page so that it survives reloads or later sessions. In this project, persistence is implemented by synchronizing key Model state with Firestore and restoring it again when the application starts.
 
 ---
 
-### Q12: What are Reactive Objects in MobX? How do they work?
+### Q12. How does persistence relate to reactive objects and side effects?
+### Q12. 持久化与响应式对象、副作用之间是什么关系？
 
 **中文详细解析：**
 
-MobX 的响应式系统是本项目的状态管理核心：
+这一题真正想考的是：为什么持久化常常和响应式状态管理一起出现。
 
-**`observable(model)`**：将普通的 JavaScript 对象包装成可观察对象。MobX 会拦截对该对象属性的读取和写入。读取时自动记录"谁依赖了这个属性"；写入时自动通知所有依赖者更新。
+答案是，因为持久化本身就是一种“由状态变化触发的副作用”。
 
-**`observer(Component)`**：包裹 React 组件，使其能够自动感知 MobX observable 的变化。当组件渲染期间读取的任何 observable 属性发生变化时，组件自动重新渲染。不需要手动调用 `setState` 或写 `useEffect`。
+逻辑链条如下：
 
-**工作机制**：
-- 任何被 `observer()` 包裹的 Presenter 组件读取 `reactiveModel.dishes` 时，MobX 自动建立依赖追踪
-- 当 `dishes` 发生变化（如 `addToMenu` 或 `removeFromMenu`），MobX 自动触发该组件的重新渲染
-- 只重新渲染真正依赖了变化属性的组件，不会全局重渲染
+**第一步：先有响应式对象**
 
-在你的代码中：`Sidebar` Presenter 被 `observer()` 包裹，当 `model.dishes` 变化时自动重新渲染，无需手动管理。
+Model 被做成 reactive object 之后，系统才能准确知道哪些属性变了，例如：
 
-**English Short Answer:**
+- `numberOfGuests`
+- `dishes`
+- `currentDishId`
 
-- `observable(model)`: Wraps plain JS object — MobX intercepts reads/writes. Reads track dependencies; writes notify dependents.
-- `observer(Component)`: Wraps React component — auto re-renders when any observable property it reads during render changes.
-- Automatic dependency tracking: component only re-renders for properties it actually uses. No manual `setState` or `useEffect` needed.
-- Example: `Sidebar` Presenter auto re-renders when `model.dishes` changes.
+**第二步：再定义副作用规则**
 
----
+一旦这些被观察的数据变化，就自动执行一个 effect，把最新状态写去 Firestore。
 
-### Q13: What are Side Effects in Reactive Objects? Identify them in your code.
+也就是说：
 
-**中文详细解析：**
+- reactive object 提供“可观察的状态”
+- side effect 提供“变化后自动执行的动作”
+- persistence 是这个动作中的一个具体业务目标
 
-副作用（Side Effect）是指在响应式数据变化时，自动执行的非渲染操作。渲染本身不是副作用（因为它直接产生 UI），副作用是指额外的、不在渲染流程中的操作，如 API 调用、数据持久化。
+从工程角度看，这种做法比“每个按钮点一次就手写一次保存逻辑”更稳，因为保存逻辑不是绑在某个按钮上，而是绑在“状态变化”本身上。只要状态正确变化，持久化就不会漏掉。
 
-你的项目中有 **3 个副作用**：
+当然，这也带来一个风险：应用刚启动、数据还没从云端恢复完时，不能立刻反向写回去，所以项目里才需要 `model.ready` 这样的写入门控。它本质上也是在控制副作用何时允许发生。
 
-1. **初始化搜索（Initial Search）**：`reactiveModel.doSearch({})` 在模块加载时立即执行。这是一个一次性的初始化副作用，确保应用启动后有默认数据显示。
+**English Official Short Answer:**
 
-2. **菜品详情自动抓取（Auto-fetch dish details）**：
-   ```js
-   reaction(
-       () => reactiveModel.currentDishId,     // 数据源
-       () => reactiveModel.currentDishEffect()  // 副作用
-   );
-   ```
-   当用户点击菜品（`currentDishId` 变化）时，自动发起 `getDishDetails(id)` API 请求。`reaction()` 是 MobX 提供的副作用原语 —— 类似 React 的 `useEffect`，但不依赖 React。它在渲染之外运行，只在数据变化时触发。
-
-3. **数据持久化（Persistence sync）**：在 `firestoreModel.js` 中，`reaction` 监听 `[dishes, numberOfGuests, currentDishId]` 的变化，自动将数据同步到 Firestore。
-
-**English Short Answer:**
-
-Side effects: non-rendering operations triggered by reactive data changes (API calls, persistence). Three in this project:
-1. **Initial search**: `reactiveModel.doSearch({})` — runs immediately on module load.
-2. **Auto-fetch dish details**: `reaction(() => currentDishId, () => currentDishEffect())` — fetches API details when selected dish changes.
-3. **Persistence sync**: `reaction(() => [dishes, guests], () => setDoc(...))` — auto-saves to Firestore when data changes.
-`reaction()` is MobX's side effect primitive, similar to React's `useEffect` but framework-agnostic. Runs outside render, triggered by data changes.
+Persistence is implemented as a side effect on reactive state. The reactive object makes changes to Model state observable, and a reaction watches those changes and writes the new state to Firestore. In other words, reactive objects provide observable data, side effects react to changes, and persistence is one concrete side effect built on top of that mechanism.
 
 ---
 
-### Q14: What is `model.ready` and why is it needed?
+## Quick Review Checklist
 
-**中文详细解析：**
-
-`model.ready` 是一个**门控标志（Write Guard）**，用于防止持久化同步中的循环覆盖问题。
-
-**问题场景**：没有 `model.ready` 时：
-1. 应用启动，从 Firestore 读取数据
-2. 读取过程中，数据逐步恢复到 Model
-3. 每次恢复（设置 `dishes`、`numberOfGuests`）都触发 MobX `reaction`
-4. `reaction` 立即将不完整的数据写回 Firestore
-5. 覆盖了云端的完整数据
-
-**解决方案**：
-- 初始化时 `model.ready = false` —— 锁定写入
-- 在恢复持久化的所有步骤完成后（包括重新获取菜品详情），设置 `model.ready = true` —— 解锁写入
-- 在写入 Firestore 的 `reaction` 回调中检查 `if (model.ready)` —— 只有解锁后才写入
-
-这确保了：
-- 启动时不会用半恢复数据覆盖云端
-- 恢复完成后，后续的用户操作能正常同步到云端
-- 数据完整性得到保证
-
-**English Short Answer:**
-
-`model.ready` is a write-guard flag:
-- Set to `false` during initial Firestore restore — prevents MobX reaction from writing half-restored state back to cloud and overwriting good data.
-- Set to `true` after restore completes — enables normal persistence sync for user actions.
-- Checked in persistence `reaction`: `if (model.ready) { setDoc(...) }`.
-- Without this, every incremental restore step would trigger a Firestore write, potentially overwriting complete cloud data with partial state.
-
----
-
-### Q15: What are `modelToPersistence` and `persistenceToModel`? Why are they needed?
-
-**中文详细解析：**
-
-这两个函数是序列化/反序列化层，解决 Model（内存中的丰富对象）与 Firestore（只能存储简单 JSON）之间的差异：
-
-**`modelToPersistence(model)` — 序列化（Model → Firestore）**：
-- 将 Model 中的复杂数据结构转为轻量的 JSON 对象
-- **关键设计**：只保存菜品的 `id` 和 `title`，不保存完整的 `extendedIngredients`、`analyzedInstructions` 等详情
-- 原因：Firestore 文档有大小限制，且完整菜谱数据可以从 API 重新获取（数据源是权威的）
-
-**`persistenceToModel(data)` — 反序列化（Firestore → Model）**：
-- 从 Firestore 读取的轻量数据恢复 `numberOfGuests`、`currentDishId`
-- 菜品先用 `id` + `title` 占位显示
-- **重新获取完整详情**：调用 `getMenuDetails(ids)` 获取完整菜谱数据
-- **容错处理**：如果 `getMenuDetails` 失败（网络问题），`.catch` 忽略错误——菜品的 ID 和标题已经保留了，用户可以继续操作
-
-**English Short Answer:**
-
-- `modelToPersistence`: Serializer. Converts Model → lightweight object for Firestore. Only saves `id` + `title` (not full recipe data) to keep documents small. Full details are re-fetched from API on restore.
-- `persistenceToModel`: Deserializer. Restores basic data from Firestore → Model. Re-fetches full dish details via `getMenuDetails(ids)`. Tolerates fetch failures (IDs preserved, user can still see dish names).
-- This separation keeps Firestore documents lightweight and treats the API as the single source of truth for dish details.
-
----
-
-## 考前自检 Checklist
-
-- [ ] `npm run dev` 启动成功，初始搜索自动运行
-- [ ] 能定位 `fetch` 两阶段代码（`gotResponseACB`）
-- [ ] 能定位竞态条件检查（`promiseState.promise === prms`）
-- [ ] 能解释 `SuspenseView` 的 4 种状态切换
-- [ ] 能解释 HTTP Headers（`X-DH2642-Key`）、Query String（`URLSearchParams`）、Response Status（`response.ok`）
-- [ ] 能画出 MVP 三角色数据流图
-- [ ] 能解释 "Props Down, Events Up" 在你的代码中的体现
-- [ ] 能区分同步回调（`filter`）和异步回调（`.then`）
-- [ ] 能解释持久化双向同步的三个关键点：序列化、门控、重新获取详情
-- [ ] 能解释 `observable()` 和 `observer()` 的作用
-- [ ] 能列出 3 个副作用及其代码位置
-- [ ] 能解释 `model.ready` 为什么必要（防止循环覆盖）
+- [ ] I can explain custom events as callback-based business events.
+- [ ] I can distinguish firing in the View from handling in the Presenter.
+- [ ] I can explain "props down, events up" with one concrete project example.
+- [ ] I can distinguish synchronous callbacks from asynchronous callbacks.
+- [ ] I can explain the roles of Model, Presenter, and View in MVP.
+- [ ] I can define a Promise and its three states.
+- [ ] I can identify the two stages of Fetch: `fetch()` and `response.json()`.
+- [ ] I can explain how `resolvePromise()` avoids stale updates.
+- [ ] I can explain conditional rendering and suspense-style loading/error handling.
+- [ ] I can explain method, headers, query string, body, and response status in the API code.
+- [ ] I can define reactive objects and side effects.
+- [ ] I can name the concrete side effects in this project.
+- [ ] I can explain persistence as Firestore save-and-restore of Model state.
+- [ ] I can explain persistence as a side effect built on reactive state.

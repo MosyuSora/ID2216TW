@@ -21,7 +21,7 @@ function DetailsView(props) {
 
             <Pressable 
                 role="button" 
-                onPress={() => props.onAddDish()} 
+                onPress={() => props.onAddToMenu()} 
                 disabled={props.isDishInMenu}
             >
                 <Text>{props.isDishInMenu ? 'Added to menu' : 'Add to menu'}</Text>

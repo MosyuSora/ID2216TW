@@ -24,24 +24,25 @@
     "react-native-screens": "~4.16.0",
     "react-native-web": "^0.21.0",
     "react-router-dom": "^7.10.1",
-    "vue":"latest"
+    "vue": "latest"
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",
     "@iprog/test": "latest",
+    "@react-native-segmented-control/segmented-control": "2.5.7",
+    "@react-navigation/native": "^7.0.0",
     "@testing-library/jest-dom": "latest",
     "@testing-library/react": "^16.3.0",
+    "@testing-library/react-native": "13.2.0",
+    "@testing-library/vue": "latest",
     "babel-plugin-module-resolver": "^5.0.2",
+    "cross-env": "^10.1.0",
+    "esbuild": "latest",
+    "flow-remove-types": "latest",
     "happy-dom": "latest",
     "react-test-renderer": "19.1.0",
     "vite-plugin-virtual-html": "latest",
     "vitest": "latest",
-    "@react-native-segmented-control/segmented-control": "2.5.7",
-    "@react-navigation/native": "^7.0.0",
-    "@testing-library/react-native": "13.2.0",
-    "esbuild": "latest",
-    "flow-remove-types":"latest",
-    "@testing-library/vue": "latest",
     "vue-router": "latest"
   },
   "private": true
